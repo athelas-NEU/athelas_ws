@@ -51,6 +51,7 @@ qtcreator-*
 CATKIN_IGNORE
 
 # VS Code
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
