@@ -1,3 +1,6 @@
-[submodule "src/src/main_node"]
-	path = src/src/main_node
+[submodule "src/main_node"]
+	path = src/main_node
 	url = https://github.com/athelas-NEU/main_node
+[submodule "src/pose_estimation"]
+	path = src/pose_estimation
+	url = https://github.com/athelas-NEU/pose_estimation.git
