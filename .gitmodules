@@ -1,0 +1,3 @@
+[submodule "src/src/main_node"]
+	path = src/src/main_node
+	url = https://github.com/athelas-NEU/main_node
