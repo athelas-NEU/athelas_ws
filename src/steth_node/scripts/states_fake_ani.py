@@ -33,7 +33,7 @@ def plot_callback(frame, state):
 		try:
 			data_np = np.asarray(state.data_q.get_nowait())
 			data = np.expand_dims(data_np, axis=1)
-			print_list(data)
+			# print_list(data)
 		except queue.Empty:
 			break
 
@@ -48,6 +48,7 @@ def plot_callback(frame, state):
 		# print(state.plotdata[:,column])
 		line.set_ydata(state.plotdata[:,column])
 
+	state.ax.autoscale_view(tight=None, scalex=False, scaley=True)
 	return state.lines
 
 class FakeBioState(object):
@@ -68,7 +69,7 @@ class FakeBioState(object):
 
 		window = 1000
 		self.downsample = 1
-		interval = 30
+		interval = 30 # this is update interval in miliseconds for plot (less than 30 crashes it :(
 		samplerate = 44100.0
 		channels = [1]
 		length = int(window * samplerate / 1000 * self.downsample)
@@ -101,7 +102,6 @@ class FakeBioState(object):
 	def __bio_callback(self, data):
 		datalist = data.data
 		self.data_q.put(datalist)
-		rate.sleep()
 
 
 myState = FakeBioState("stethoscope")    

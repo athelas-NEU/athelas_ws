@@ -90,6 +90,9 @@ def update_plot(frame):
         plotdata[-shift:,:] = data
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:,column])
+
+    ax.autoscale_view(scalex=False, scaley=True)
+
     return lines
 
 ax.set_facecolor((0,0,0))

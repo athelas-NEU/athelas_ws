@@ -52,7 +52,7 @@ rospy.init_node('steth_publisher', anonymous=True)
 rate = rospy.Rate(10) # 10hz
 
 
-QUEUE_SIZE = 10
+QUEUE_SIZE = 100
 pub_steth = rospy.Publisher('/biosensors/stethoscope', biodatat, queue_size=QUEUE_SIZE)
 pub_msg = biodatat()
 
@@ -65,7 +65,6 @@ def audio_callback(indata,frames,time,status):
     pub_msg.data = list(sample)
     pub_steth.publish(pub_msg)
     print("length: " + str(len(pub_msg.data)))
-    rate.sleep()
 
     # print("Callback: " + str(type(sample)) + "," + str(sample[0]))
 
