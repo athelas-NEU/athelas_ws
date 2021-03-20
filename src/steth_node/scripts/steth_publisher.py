@@ -7,7 +7,7 @@ import sys
 import numpy as np
 import sounddevice as sd
 
-from steth_node.msg import biodatat
+from std_msgs.msg import Float32MultiArray
 import rospy
 import time as t
 
@@ -53,8 +53,8 @@ rate = rospy.Rate(10) # 10hz
 
 
 QUEUE_SIZE = 100
-pub_steth = rospy.Publisher('/biosensors/stethoscope', biodatat, queue_size=QUEUE_SIZE)
-pub_msg = biodatat()
+pub_steth = rospy.Publisher('/biosensors/stethoscope', Float32MultiArray, queue_size=QUEUE_SIZE)
+pub_msg = Float32MultiArray()
 
 
 def audio_callback(indata,frames,time,status):
@@ -78,15 +78,10 @@ def audio_callback(indata,frames,time,status):
     #     rate.sleep()
 
 """ INPUT FROM MIC """
-
-try:
-    with sd.InputStream(device=device,
+with sd.InputStream(device=device,
                    samplerate=samplerate,
                    channels=max(channels),
                    callback=audio_callback):
-        print('#' * 80)
-        print('press Enter to quit')
-        print('#' * 80)
-        input()
-except KeyboardInterrupt:
-    parser.exit('\nInterrupted by user')
+    rospy.spin()
+    print("shutting down")
+
