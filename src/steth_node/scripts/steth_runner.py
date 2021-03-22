@@ -3,6 +3,7 @@
 import argparse
 import queue
 import sys
+
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import numpy as np
@@ -61,28 +62,39 @@ lines = ax.plot(plotdata,color = (0,1,0.29))
 
 # We will use an audio call back function to put the data in queue
 
-def audio_callback(indata,frames,time,status):
+def audio_callback(indata,frames,time,status):    
+    # print(len(indata), ", ", type(indata))
     q.put(indata[::downsample,[0]])
+
 
 # now we will use an another function 
 # It will take frame of audio samples from the queue and update
 # to the lines
+
+def print_list(_list):
+	print("data: " + str(type(_list)) + ", " + str(len(_list)))
 
 def update_plot(frame):
     global plotdata
     while True:
         try: 
             data = q.get_nowait()
+            # print_list(data)
         except queue.Empty:
             break
         shift = len(data)
         plotdata = np.roll(plotdata, -shift,axis = 0)
         # Elements that roll beyond the last position are 
         # re-introduced 
+        print("plt: " + str(data) + ", " + str(type(data)))
         plotdata[-shift:,:] = data
     for column, line in enumerate(lines):
         line.set_ydata(plotdata[:,column])
+
+    ax.autoscale_view(scalex=False, scaley=True)
+
     return lines
+
 ax.set_facecolor((0,0,0))
 # Lets add the grid
 ax.set_yticks([0])
